@@ -30,17 +30,25 @@
 
         .hidden { display: none !important; }
 
-        /* トップ画面 */
-        .menu-group { margin-bottom: 1.5rem; padding: 10px; border-bottom: 1px solid #eee; }
-        .source-selector { margin-bottom: 1rem; font-weight: bold; }
+        /* --- トップ画面 UI --- */
+        .menu-section { border-bottom: 2px solid #eee; margin-bottom: 20px; padding-bottom: 20px; }
+        .row { margin-bottom: 15px; }
         
-        #category-select, #standard-file-select { width: 350px; max-width: 100%; padding: 10px; font-size: 1rem; margin: 5px; }
-        select, button, input[type="file"] { padding: 10px 20px; font-size: 1rem; border-radius: 5px; border: 1px solid #ccc; margin: 5px; }
-        
-        button { background: var(--primary-color); color: white; border: none; cursor: pointer; }
+        #standard-file-select, #category-select { width: 350px; max-width: 100%; padding: 10px; font-size: 1rem; }
+        select, button { border-radius: 5px; border: 1px solid #ccc; }
+        button { background: var(--primary-color); color: white; border: none; cursor: pointer; padding: 10px 20px; font-size: 1rem; }
         button:disabled { background: #ccc; cursor: not-allowed; }
 
-        /* タイピング画面 */
+        /* ファイル入力の透明化ハック */
+        .file-input-container { display: inline-flex; align-items: center; gap: 10px; position: relative; }
+        .custom-file-btn { background: #666; color: white; padding: 8px 15px; border-radius: 5px; cursor: pointer; }
+        #file-input {
+            position: absolute; left: 0; top: 0; opacity: 0; width: 120px; cursor: pointer;
+        }
+        #file-display-name { font-size: 0.9rem; color: #555; }
+        #restore-msg { font-size: 0.85rem; color: var(--primary-color); margin-top: 5px; min-height: 1.2rem; }
+
+        /* --- タイピング画面 UI --- */
         .stats-bar { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 10px; }
         #progress-container { width: 100%; height: 10px; background: #eee; border-radius: 5px; margin-bottom: 2rem; overflow: hidden; }
         #progress-bar { height: 100%; background: var(--primary-color); width: 100%; transition: width 0.1s linear; }
@@ -55,7 +63,6 @@
             width: 35px; height: 50px; display: flex; align-items: center; justify-content: center;
             position: relative; margin: 0 1px; border: 2px solid #ddd; border-radius: 5px; flex-shrink: 0;
         }
-        
         .char-space { width: 20px; height: 50px; display: inline-block; flex-shrink: 0; }
         .char-normal { display: flex; align-items: center; justify-content: center; height: 50px; width: auto; padding: 0 1px; }
 
@@ -73,6 +80,7 @@
         #result-title.perfect { color: var(--perfect-color); }
         #result-title.clear { color: var(--clear-color); }
 
+        /* 仮想キーボード */
         .keyboard { display: grid; grid-template-rows: repeat(3, 1fr); gap: 5px; margin-top: 2rem; user-select: none; }
         .key-row { display: flex; justify-content: center; gap: 5px; }
         .key { width: 45px; height: 45px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 1px solid #ddd; background: white; }
@@ -92,34 +100,44 @@
     <div id="screen-top">
         <h1>English Typing Master</h1>
         
-        <div class="menu-group">
-            <div class="source-selector">
-                問題の選択: 
+        <div class="menu-section">
+            <div class="row">
                 <label><input type="radio" name="csv-source" value="server" checked> 標準問題</label>
-                <label><input type="radio" name="csv-source" value="local"> ユーザー問題</label>
+                <label style="margin-left: 20px;"><input type="radio" name="csv-source" value="local"> ユーザー問題</label>
             </div>
 
-            <div id="server-file-ui">
-                <select id="standard-file-select">
-                    <option value="">-- 問題集を選択 --</option>
+            <div class="row">
+                <div id="server-file-ui">
+                    <select id="standard-file-select">
+                        <option value="">-- 問題集をロード中 --</option>
+                    </select>
+                </div>
+                <div id="local-file-ui" class="hidden">
+                    <div class="file-input-container">
+                        <span class="custom-file-btn">ファイルを選択</span>
+                        <input type="file" id="file-input" accept=".csv">
+                        <span id="file-display-name"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="restore-msg"></div>
+        </div>
+
+        <div class="menu-section">
+            <div class="row">
+                <select id="category-select" disabled>
+                    <option value="">-- 問題を選択 --</option>
                 </select>
             </div>
-
-            <div id="local-file-ui" class="hidden">
-                <input type="file" id="file-input" accept=".csv">
+            <div class="row">
+                <label><input type="checkbox" id="voice-toggle"> 音声再生あり</label>
             </div>
-        </div>
-
-        <div class="menu-group">
-            <select id="category-select" disabled><option value="">-- 分類を選択 --</option></select>
-        </div>
-
-        <div class="menu-group"><label><input type="checkbox" id="voice-toggle"> 音声再生あり</label></div>
-        
-        <div class="menu-group">
-            <button id="btn-normal" class="mode-btn" disabled>Normal Mode</button>
-            <button id="btn-advanced" class="mode-btn" disabled>Advanced Mode</button>
-            <button id="btn-dictation" class="mode-btn" disabled>Dictation Mode</button>
+            <div class="row">
+                <button id="btn-normal" class="mode-btn" disabled>Normal Mode</button>
+                <button id="btn-advanced" class="mode-btn" disabled>Advanced Mode</button>
+                <button id="btn-dictation" class="mode-btn" disabled>Dictation Mode</button>
+            </div>
         </div>
         <p class="instruction">※大文字・小文字はどちらでもOK</p>
     </div>
@@ -148,16 +166,7 @@
 </div>
 
 <script>
-/**
- * サーバー上の標準問題集リスト
- * 同一フォルダに置くCSVファイル名を拡張子付きで記述してください。
- */
-const STANDARD_FILES = [
-    "questions.csv",
-    "lesson1.csv",
-    "lesson2.csv"
-];
-
+const STD_LIST_PATH = "./standard_files.csv";
 const CONFIG = { TIME_PER_CHAR: 3, BASE_SCORE: 5, COMBO_BONUS: 1, SPEECH_RATE: 0.9, MAX_MISS: 3 };
 
 let state = {
@@ -176,6 +185,8 @@ const rows = [["Q","W","E","R","T","Y","U","I","O","P"], ["A","S","D","F","G","H
 
 const el = {
     fileInput: document.getElementById('file-input'),
+    fileNameDisp: document.getElementById('file-display-name'),
+    restoreMsg: document.getElementById('restore-msg'),
     catSelect: document.getElementById('category-select'),
     stdFileSelect: document.getElementById('standard-file-select'),
     voiceToggle: document.getElementById('voice-toggle'),
@@ -191,20 +202,30 @@ const el = {
 
 // --- 初期化 ---
 
-function init() {
-    // 標準問題プルダウンの生成
-    STANDARD_FILES.forEach(file => {
-        const opt = document.createElement('option');
-        opt.value = file;
-        opt.textContent = file.replace(/\.csv$/i, ''); // 拡張子を除いて表示
-        el.stdFileSelect.appendChild(opt);
-    });
-
+async function init() {
     renderKeyboard();
+    await loadStandardFileList();
     restoreState();
 }
 
-// 状態復元
+async function loadStandardFileList() {
+    try {
+        const response = await fetch(STD_LIST_PATH);
+        if (!response.ok) throw new Error();
+        const text = await response.text();
+        const files = text.split(/\r?\n/).filter(l => l.trim() !== "");
+        el.stdFileSelect.innerHTML = '<option value="">-- 問題集を選択 --</option>';
+        files.forEach(file => {
+            const opt = document.createElement('option');
+            opt.value = file.trim();
+            opt.textContent = file.trim().replace(/\.csv$/i, '');
+            el.stdFileSelect.appendChild(opt);
+        });
+    } catch (err) {
+        el.stdFileSelect.innerHTML = '<option value="">-- 読込失敗 --</option>';
+    }
+}
+
 function restoreState() {
     const d = sessionStorage.getItem('typing_csv_data');
     const v = sessionStorage.getItem('typing_voice');
@@ -221,6 +242,7 @@ function restoreState() {
         } else {
             document.querySelector('input[value="local"]').checked = true;
             el.serverUi.classList.add('hidden'); el.localUi.classList.remove('hidden');
+            el.restoreMsg.textContent = "前回のファイルを選択済みです";
         }
         updateCategoryList(); 
         if(c) { el.catSelect.value = c; state.selectedCategory = c; }
@@ -229,47 +251,57 @@ function restoreState() {
     updateModeButtons();
 }
 
-// --- イベントリスナー ---
+// --- イベント制御 ---
 
-// ソース切り替え
 el.radioSources.forEach(r => r.addEventListener('change', (e) => {
+    // 画面上のメッセージと表示名をリセット
+    el.restoreMsg.textContent = "";
+    el.fileNameDisp.textContent = "";
+    
+    // 【修正】ラジオボタンを手動で切り替えた時は、現在の読み込みデータを一度クリアする
+    // これにより、中途半端なデータ保持による不整合を防ぎます
     state.allData = [];
     state.selectedCategory = "";
-    el.catSelect.innerHTML = '<option value="">-- 分類を選択 --</option>';
-    el.catSelect.disabled = true;
+    sessionStorage.removeItem('typing_csv_data');
+    sessionStorage.removeItem('typing_cat');
+    sessionStorage.removeItem('typing_source');
+    sessionStorage.removeItem('typing_std_file');
 
     if (e.target.value === 'server') {
         el.serverUi.classList.remove('hidden');
         el.localUi.classList.add('hidden');
+        el.stdFileSelect.value = ""; // 標準問題の選択もリセット
     } else {
         el.serverUi.classList.add('hidden');
         el.localUi.classList.remove('hidden');
+        el.fileInput.value = ""; // ファイル選択欄もリセット
     }
-    updateModeButtons();
+    
+    // UI状態を最新の（空の）状態に更新
+    updateCategoryList();
 }));
 
-// 標準問題ファイル選択時
 el.stdFileSelect.addEventListener('change', async () => {
     const file = el.stdFileSelect.value;
     if (!file) return;
     try {
         const response = await fetch("./" + file);
-        if (!response.ok) throw new Error("ファイルが見つかりません。");
         const text = await response.text();
         parseCSV(text);
         sessionStorage.setItem('typing_csv_data', JSON.stringify(state.allData));
         sessionStorage.setItem('typing_source', 'server');
         sessionStorage.setItem('typing_std_file', file);
         updateCategoryList();
-    } catch (err) {
-        alert(err.message);
-    }
+    } catch (err) { alert("読込失敗"); }
 });
 
-// ユーザー問題ファイル選択時
 el.fileInput.addEventListener('change', (e) => {
     const files = e.target.files[0];
     if (!files || files.length === 0) return;
+    const file = files;
+    el.fileNameDisp.textContent = file.name;
+    el.restoreMsg.textContent = ""; // 新しく選んだら復元メッセージは消す
+    
     const reader = new FileReader();
     reader.onload = (ev) => {
         parseCSV(ev.target.result);
@@ -277,7 +309,7 @@ el.fileInput.addEventListener('change', (e) => {
         sessionStorage.setItem('typing_source', 'local');
         updateCategoryList();
     };
-    reader.readAsText(files);
+    reader.readAsText(file);
 });
 
 function parseCSV(text) {
@@ -291,21 +323,33 @@ function parseCSV(text) {
 
 function updateCategoryList() {
     const cats = [...new Set(state.allData.map(d => d.cat))];
+    
     if (cats.length > 0) {
-        el.catSelect.innerHTML = '<option value="">-- 分類を選択 --</option>' + cats.map(c => `<option value="${c}">${c}</option>`).join('');
+        el.catSelect.innerHTML = '<option value="">-- 問題を選択 --</option>' + 
+                                 cats.map(c => `<option value="${c}">${c}</option>`).join('');
         el.catSelect.disabled = false;
+
+        // リロード時のみ、保存されたカテゴリがあれば復元
+        const savedCat = sessionStorage.getItem('typing_cat');
+        if (savedCat && cats.includes(savedCat)) {
+            el.catSelect.value = savedCat;
+            state.selectedCategory = savedCat;
+        }
     } else {
-        el.catSelect.innerHTML = '<option value="">-- データがありません --</option>';
+        // データがない場合は初期状態に戻す
+        el.catSelect.innerHTML = '<option value="">-- 問題を選択 --</option>';
         el.catSelect.disabled = true;
+        state.selectedCategory = "";
     }
     updateModeButtons();
 }
 
 function updateModeButtons() {
     const hasCat = !!state.selectedCategory;
-    document.getElementById('btn-normal').disabled = !hasCat;
-    document.getElementById('btn-advanced').disabled = !hasCat;
-    document.getElementById('btn-dictation').disabled = !(hasCat && el.voiceToggle.checked);
+    document.querySelectorAll('.mode-btn').forEach(b => {
+        if(b.id === 'btn-dictation') b.disabled = !(hasCat && el.voiceToggle.checked);
+        else b.disabled = !hasCat;
+    });
 }
 
 el.catSelect.addEventListener('change', () => {
@@ -319,7 +363,7 @@ el.voiceToggle.addEventListener('change', () => {
     sessionStorage.setItem('typing_voice', el.voiceToggle.checked);
 });
 
-// --- ゲーム進行ロジック ---
+// --- ゲームエンジン ---
 
 document.querySelectorAll('.mode-btn').forEach(btn => btn.onclick = () => {
     state.currentMode = btn.id.replace('btn-', '');
