@@ -474,7 +474,7 @@ function parseCSV(text) {
 function updateCategoryList() {
     const cats = [...new Set(state.allData.map(d => d.cat))];
     if (cats.length > 0) {
-        el.catSelect.innerHTML = '<option value="">-- 分類を選択 --</option>' + cats.map(c => `<option value="${c}">${c}</option>`).join('');
+        el.catSelect.innerHTML = '<option value="">-- 問題を選択 --</option>' + cats.map(c => `<option value="${c}">${c}</option>`).join('');
         el.catSelect.disabled = false;
     } else {
         el.catSelect.innerHTML = '<option value="">-- 問題を選択 --</option>';
