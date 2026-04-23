@@ -3,73 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English Typing Master</title>
+    <title>English Typing Master 🎉</title>
     <style>
+        /* --- デザインリニューアル: パステル & ポップ --- */
         :root {
-            --bg-color: #f0f4f8;
+            --bg-color: #e3f2fd; /* 明るいパステルブルー */
             --card-bg: #ffffff;
-            --primary-color: #4a90e2;
-            --perfect-color: #4a90e2;
-            --clear-color: #2ecc71;
-            --error-color: #e74c3c;
-            --text-main: #333;
-            --text-light: #aaa;
-            --pinky: #ffebf2; --ring: #fff3e0; --middle: #e8f5e9; --index: #e3f2fd;
+            --primary-color: #ff9800; /* 元気なオレンジ */
+            --primary-hover: #f57c00;
+            --perfect-color: #4caf50; /* 安心感のある緑 */
+            --clear-color: #8bc34a;   /* 黄緑 */
+            --error-color: #ef5350;   /* パステルレッド */
+            --text-main: #333333;     /* 濃いグレー（目に優しい） */
+            --text-light: #b0bec5;
+            
+            /* 黒板風タイピングエリア */
+            --chalkboard-bg: #2a4d3e;
+            --chalk-white: #ffffff;
+
+            /* 指の色分け（パステルカラーに変更） */
+            --pinky: #ffcdd2; --ring: #fff9c4; --middle: #c8e6c9; --index: #bbdefb;
+            --key-shadow: #b0bec5;
         }
 
         body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            background-color: var(--bg-color); color: var(--text-main);
-            margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh;
+            font-family: 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', Meiryo, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: linear-gradient(120deg, #e3f2fd 0%, #ffffff 100%); /* 爽やかなグラデーション */
         }
 
         #app {
-            width: 95%; max-width: 950px; background: var(--card-bg); padding: 2rem;
-            border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center;
+            width: 95%;
+            max-width: 980px;
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 25px; /* 角を丸く */
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1); /* 立体感 */
+            text-align: center;
+            border: 5px solid #fff; /* 白いフレーム */
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-top: 0;
+            text-shadow: 2px 2px 0 rgba(255,255,255,0.5);
+            letter-spacing: 1px;
         }
 
         .hidden { display: none !important; }
 
         /* --- トップ画面 UI --- */
-        .menu-section { border-bottom: 2px solid #eee; margin-bottom: 20px; padding-bottom: 20px; }
-        .row { margin-bottom: 15px; }
+        .menu-section {
+            border: 2px solid #e1f5fe;
+            background-color: #fbfdff;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            padding: 20px;
+        }
         
-        #standard-file-select, #category-select { width: 350px; max-width: 100%; padding: 10px; font-size: 1rem; }
-        select, button { border-radius: 5px; border: 1px solid #ccc; }
-        button { background: var(--primary-color); color: white; border: none; cursor: pointer; padding: 10px 20px; font-size: 1rem; }
-        button:disabled { background: #ccc; cursor: not-allowed; }
+        .row { margin-bottom: 15px; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 10px;}
+        
+        /* ラジオボタンを可愛く */
+        .source-selector label {
+            background: #fff;
+            border: 2px solid #ddd;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            font-weight: bold;
+        }
+        .source-selector input[type="radio"] { margin-right: 8px; transform: scale(1.2); }
+        .source-selector input[type="radio"]:checked + span { color: var(--primary-color); }
+        .source-selector label:has(input:checked) {
+            border-color: var(--primary-color);
+            background-color: #fff3e0;
+            box-shadow: 0 4px 0 #ffe0b2;
+        }
 
-        /* ファイル入力の透明化ハック */
+        #standard-file-select, #category-select {
+            width: 380px; max-width: 100%;
+            padding: 12px;
+            font-size: 1.1rem;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+            background-color: #fff;
+            color: var(--text-main);
+            cursor: pointer;
+        }
+        #category-select { border-color: #81d4fa; } /* カテゴリは青枠 */
+
+        /* 楽しいボタンデザイン */
+        button {
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 0 #e65100; /* 立体的な影 */
+            margin: 5px 10px;
+        }
+        button:not(:disabled):active { transform: translateY(3px); box-shadow: 0 2px 0 #e65100; }
+        
+        #btn-normal { background: var(--clear-color); box-shadow: 0 5px 0 #558b2f; }
+        #btn-normal:not(:disabled):active { box-shadow: 0 2px 0 #558b2f; }
+        #btn-advanced { background: #4fc3f7; box-shadow: 0 5px 0 #0277bd; }
+        #btn-advanced:not(:disabled):active { box-shadow: 0 2px 0 #0277bd; }
+        #btn-dictation { background: #ba68c8; box-shadow: 0 5px 0 #6a1b9a; }
+        #btn-dictation:not(:disabled):active { box-shadow: 0 2px 0 #6a1b9a; }
+
+        button:disabled { background: #cfd8dc; box-shadow: 0 5px 0 #b0bec5; color: #90a4ae; cursor: not-allowed; }
+
+        /* ユーザー問題UI */
         .file-input-container { display: inline-flex; align-items: center; gap: 10px; position: relative; }
-        .custom-file-btn { background: #666; color: white; padding: 8px 15px; border-radius: 5px; cursor: pointer; }
-        #file-input {
-            position: absolute; left: 0; top: 0; opacity: 0; width: 120px; cursor: pointer;
+        .custom-file-btn {
+            background: #90a4ae; color: white; padding: 10px 20px;
+            border-radius: 30px; cursor: pointer; font-weight: bold;
+            box-shadow: 0 5px 0 #546e7a;
         }
-        #file-display-name { font-size: 0.9rem; color: #555; }
-        #restore-msg { font-size: 0.85rem; color: var(--primary-color); margin-top: 5px; min-height: 1.2rem; }
+        .custom-file-btn:active { transform: translateY(2px); box-shadow: 0 3px 0 #546e7a; }
+        #file-input { position: absolute; left: 0; top: 0; opacity: 0; width: 140px; cursor: pointer; }
+        #file-display-name { font-size: 0.95rem; color: #555; font-weight: bold; }
+        #restore-msg { font-size: 0.9rem; color: #0277bd; font-weight: bold; margin-top: 8px; min-height: 1.2rem; }
 
-        /* --- タイピング画面 UI --- */
-        .stats-bar { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 10px; }
-        #progress-container { width: 100%; height: 10px; background: #eee; border-radius: 5px; margin-bottom: 2rem; overflow: hidden; }
-        #progress-bar { height: 100%; background: var(--primary-color); width: 100%; transition: width 0.1s linear; }
-        .japanese-text { font-size: 1.5rem; margin-bottom: 1rem; color: #555; height: 1.8rem; }
+        /* チェックボックス */
+        #voice-toggle { transform: scale(1.5); margin-right: 10px; cursor: pointer; }
+        label:has(#voice-toggle) { font-weight: bold; color: #555; display: flex; align-items: center; justify-content: center;}
+
+        /* --- タイピング画面 UI: 黒板風 --- */
+        #screen-game {
+            background-color: var(--chalkboard-bg);
+            border-radius: 20px;
+            padding: 30px;
+            border: 10px solid #8d6e63; /* 木枠 */
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+            color: var(--chalk-white);
+        }
+
+        .stats-bar {
+            display: flex; justify-content: space-around;
+            font-size: 1.2rem; font-weight: bold; margin-bottom: 15px;
+            background: rgba(255,255,255,0.1); padding: 10px; border-radius: 10px;
+        }
+        .stats-bar span { color: #fff; }
+
+        #progress-container { width: 100%; height: 12px; background: rgba(255,255,255,0.2); border-radius: 6px; margin-bottom: 2rem; overflow: hidden; border: 2px solid #fff; }
+        #progress-bar { height: 100%; background: var(--clear-color); width: 100%; transition: width 0.1s linear; }
         
+        .japanese-text { font-size: 1.8rem; margin-bottom: 1.5rem; color: #ffd54f; height: 2rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
+        
+        /* 英文表示エリア */
         .english-display {
-            font-size: 2rem; display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
-            gap: 2px; margin-bottom: 2rem; min-height: 3.5rem; line-height: 1.2;
+            font-size: 2.3rem; display: flex; flex-wrap: wrap;
+            justify-content: center; align-items: center;
+            gap: 3px; margin-bottom: 2rem; min-height: 4rem;
+            line-height: 1.2;
+            font-family: 'Consolas', 'Courier New', monospace; /* 等幅フォント */
         }
 
+        /* 入力対象の枠: チョーク書き風 */
         .char-box {
-            width: 35px; height: 50px; display: flex; align-items: center; justify-content: center;
-            position: relative; margin: 0 1px; border: 2px solid #ddd; border-radius: 5px; flex-shrink: 0;
+            width: 38px; height: 55px;
+            display: flex; align-items: center; justify-content: center;
+            position: relative; margin: 0 2px;
+            border: 2px dashed rgba(255,255,255,0.5); /* 点線 */
+            border-radius: 5px; flex-shrink: 0;
+            color: var(--chalk-white);
         }
-        .char-space { width: 20px; height: 50px; display: inline-block; flex-shrink: 0; }
-        .char-normal { display: flex; align-items: center; justify-content: center; height: 50px; width: auto; padding: 0 1px; }
+        
+        /* 単語間のスペース */
+        .char-space { width: 20px; height: 55px; display: inline-block; flex-shrink: 0; }
+        /* 記号 */
+        .char-normal { display: flex; align-items: center; justify-content: center; height: 55px; width: auto; padding: 0 1px; color: rgba(255,255,255,0.8); }
 
-        .char-box.correct { color: black; border-color: #eee; }
-        .char-box.hint { color: var(--text-light); }
-        .char-box.error-anim { animation: shake 0.2s; border-color: var(--error-color); }
-        .char-box.error-mark::after { content: '×'; color: var(--error-color); position: absolute; font-size: 1.2rem; top: -10px; }
+        .char-box.correct { color: #fff; border: 2px solid #fff; background: rgba(255,255,255,0.1); text-shadow: 0 0 5px #fff; }
+        .char-box.hint { color: rgba(255,255,255,0.3); border-color: rgba(255,255,255,0.2); }
+        .char-box.error-anim { animation: shake 0.2s; border-color: var(--error-color); background-color: rgba(239, 83, 80, 0.2); }
+        .char-box.error-mark::after { content: '×'; color: var(--error-color); position: absolute; font-size: 1.5rem; top: -15px; font-weight: bold; }
 
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
@@ -77,33 +200,66 @@
             75% { transform: translateX(5px); }
         }
 
-        #result-title.perfect { color: var(--perfect-color); }
-        #result-title.clear { color: var(--clear-color); }
+        /* 🎉 Perfect用アニメーション */
+        @keyframes confetti {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100px) rotate(360deg); opacity: 0; }
+        }
+        .perfect-confetti {
+            position: absolute; font-size: 1.5rem;
+            animation: confetti 1s ease-out forwards;
+            pointer-events: none;
+        }
 
-        /* 仮想キーボード */
-        .keyboard { display: grid; grid-template-rows: repeat(3, 1fr); gap: 5px; margin-top: 2rem; user-select: none; }
-        .key-row { display: flex; justify-content: center; gap: 5px; }
-        .key { width: 45px; height: 45px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 1px solid #ddd; background: white; }
-        .key.active-target { border: 3px solid #333; transform: translateY(-2px); box-shadow: 0 4px 0 #999; }
+        /* --- 仮想キーボード UI: ポップ --- */
+        .keyboard { display: grid; grid-template-rows: repeat(3, 1fr); gap: 8px; margin-top: 2rem; user-select: none; background: #f0f4f8; padding: 15px; border-radius: 15px;}
+        .key-row { display: flex; justify-content: center; gap: 8px; }
+        .key {
+            width: 48px; height: 48px;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; font-size: 1.2rem;
+            border: none; background: white;
+            color: var(--text-main);
+            box-shadow: 0 4px 0 var(--key-shadow); /* 立体感 */
+            transition: all 0.1s;
+        }
+        /* ターゲットキーの強調 */
+        .key.active-target {
+            background-color: var(--primary-color) !important;
+            color: white !important;
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #e65100 !important;
+        }
 
+        /* 指の色分け（パステル） */
         .p-l { background-color: var(--pinky); } .r-l { background-color: var(--ring); }
         .m-l { background-color: var(--middle); } .i-l { background-color: var(--index); }
         .i-r { background-color: var(--index); } .m-r { background-color: var(--middle); }
         .r-r { background-color: var(--ring); } .p-r { background-color: var(--pinky); }
 
-        .instruction { font-size: 0.9rem; color: #777; margin-top: 1rem; }
+        .instruction { font-size: 0.95rem; color: #546e7a; margin-top: 1.5rem; font-weight: bold;}
+        #screen-game .instruction { color: rgba(255,255,255,0.7); }
+
+        /* --- リザルト画面 UI --- */
+        #screen-result h1 { font-size: 3.5rem; margin-bottom: 1rem; }
+        #result-title.perfect { color: var(--perfect-color); text-shadow: 2px 2px 0 #c8e6c9; }
+        #result-title.clear { color: var(--primary-color); text-shadow: 2px 2px 0 #ffe0b2; }
+        .result-stats { background: #f1f8e9; padding: 20px; border-radius: 15px; display: inline-block; margin: 20px 0; border: 2px solid #dcedc8;}
+        .result-stats p { font-size: 1.6rem; font-weight: bold; margin: 10px 0; color: #33691e; }
+        #final-score { color: var(--primary-color); font-size: 2rem; }
     </style>
 </head>
 <body>
 
 <div id="app">
     <div id="screen-top">
-        <h1>English Typing Master</h1>
+        <h1>English Typing Master 🎉</h1>
         
         <div class="menu-section">
-            <div class="row">
-                <label><input type="radio" name="csv-source" value="server" checked> 標準問題</label>
-                <label style="margin-left: 20px;"><input type="radio" name="csv-source" value="local"> ユーザー問題</label>
+            <div class="row source-selector">
+                <label><input type="radio" name="csv-source" value="server" checked><span>標準問題</span></label>
+                <label><input type="radio" name="csv-source" value="local"><span>ユーザー問題</span></label>
             </div>
 
             <div class="row">
@@ -124,7 +280,7 @@
             <div id="restore-msg"></div>
         </div>
 
-        <div class="menu-section">
+        <div class="menu-section chalk-style">
             <div class="row">
                 <select id="category-select" disabled>
                     <option value="">-- 問題を選択 --</option>
@@ -134,12 +290,12 @@
                 <label><input type="checkbox" id="voice-toggle"> 音声再生あり</label>
             </div>
             <div class="row">
-                <button id="btn-normal" class="mode-btn" disabled>Normal Mode</button>
-                <button id="btn-advanced" class="mode-btn" disabled>Advanced Mode</button>
-                <button id="btn-dictation" class="mode-btn" disabled>Dictation Mode</button>
+                <button id="btn-normal" class="mode-btn" disabled>Normal</button>
+                <button id="btn-advanced" class="mode-btn" disabled>Advanced</button>
+                <button id="btn-dictation" class="mode-btn" disabled>Dictation</button>
             </div>
         </div>
-        <p class="instruction">※大文字・小文字はどちらでもOK</p>
+        <p class="instruction">※大文字・小文字はどちらでもOKだよ！</p>
     </div>
 
     <div id="screen-game" class="hidden">
@@ -152,20 +308,21 @@
         <div id="display-japanese" class="japanese-text"></div>
         <div id="display-english" class="english-display"></div>
         <div id="virtual-keyboard" class="keyboard"></div>
-        <p class="instruction">Spaceキーで音声を再再生</p>
+        <p class="instruction">Spaceキーでもう一度音声をきけるよ</p>
     </div>
 
     <div id="screen-result" class="hidden">
         <h1 id="result-title">Clear!</h1>
-        <div style="font-size: 1.5rem; margin: 2rem 0;">
+        <div class="result-stats">
             <p>スコア: <span id="final-score">0</span></p>
             <p>最大コンボ: <span id="final-combo">0</span></p>
         </div>
-        <p class="instruction">Spaceキーでメニューに戻る</p>
+        <p class="instruction">Spaceキーを押してメニューにもどろう</p>
     </div>
 </div>
 
 <script>
+// --- ロジックはバージョン1を完全継承 ---
 const STD_LIST_PATH = "./standard_files.csv";
 const CONFIG = { TIME_PER_CHAR: 3, BASE_SCORE: 5, COMBO_BONUS: 1, SPEECH_RATE: 0.9, MAX_MISS: 3 };
 
@@ -199,8 +356,6 @@ const el = {
     japText: document.getElementById('display-japanese'), engDisplay: document.getElementById('display-english'),
     resultTitle: document.getElementById('result-title'), keyboard: document.getElementById('virtual-keyboard')
 };
-
-// --- 初期化 ---
 
 async function init() {
     renderKeyboard();
@@ -242,7 +397,7 @@ function restoreState() {
         } else {
             document.querySelector('input[value="local"]').checked = true;
             el.serverUi.classList.add('hidden'); el.localUi.classList.remove('hidden');
-            el.restoreMsg.textContent = "前回のファイルを選択済みです";
+            el.restoreMsg.textContent = "前回の問題ファイルを選択済みだよ";
         }
         updateCategoryList(); 
         if(c) { el.catSelect.value = c; state.selectedCategory = c; }
@@ -251,15 +406,11 @@ function restoreState() {
     updateModeButtons();
 }
 
-// --- イベント制御 ---
-
 el.radioSources.forEach(r => r.addEventListener('change', (e) => {
-    // 画面上のメッセージと表示名をリセット
     el.restoreMsg.textContent = "";
     el.fileNameDisp.textContent = "";
     
-    // 【修正】ラジオボタンを手動で切り替えた時は、現在の読み込みデータを一度クリアする
-    // これにより、中途半端なデータ保持による不整合を防ぎます
+    // 【仕様変更】手動切り替え時はデータをクリアする
     state.allData = [];
     state.selectedCategory = "";
     sessionStorage.removeItem('typing_csv_data');
@@ -270,14 +421,12 @@ el.radioSources.forEach(r => r.addEventListener('change', (e) => {
     if (e.target.value === 'server') {
         el.serverUi.classList.remove('hidden');
         el.localUi.classList.add('hidden');
-        el.stdFileSelect.value = ""; // 標準問題の選択もリセット
+        el.stdFileSelect.value = ""; 
     } else {
         el.serverUi.classList.add('hidden');
         el.localUi.classList.remove('hidden');
-        el.fileInput.value = ""; // ファイル選択欄もリセット
+        el.fileInput.value = ""; 
     }
-    
-    // UI状態を最新の（空の）状態に更新
     updateCategoryList();
 }));
 
@@ -286,13 +435,14 @@ el.stdFileSelect.addEventListener('change', async () => {
     if (!file) return;
     try {
         const response = await fetch("./" + file);
+        if (!response.ok) throw new Error();
         const text = await response.text();
         parseCSV(text);
         sessionStorage.setItem('typing_csv_data', JSON.stringify(state.allData));
         sessionStorage.setItem('typing_source', 'server');
         sessionStorage.setItem('typing_std_file', file);
         updateCategoryList();
-    } catch (err) { alert("読込失敗"); }
+    } catch (err) { alert("読込失敗しちゃった"); }
 });
 
 el.fileInput.addEventListener('change', (e) => {
@@ -300,7 +450,7 @@ el.fileInput.addEventListener('change', (e) => {
     if (!files || files.length === 0) return;
     const file = files;
     el.fileNameDisp.textContent = file.name;
-    el.restoreMsg.textContent = ""; // 新しく選んだら復元メッセージは消す
+    el.restoreMsg.textContent = ""; 
     
     const reader = new FileReader();
     reader.onload = (ev) => {
@@ -323,20 +473,10 @@ function parseCSV(text) {
 
 function updateCategoryList() {
     const cats = [...new Set(state.allData.map(d => d.cat))];
-    
     if (cats.length > 0) {
-        el.catSelect.innerHTML = '<option value="">-- 問題を選択 --</option>' + 
-                                 cats.map(c => `<option value="${c}">${c}</option>`).join('');
+        el.catSelect.innerHTML = '<option value="">-- 分類を選択 --</option>' + cats.map(c => `<option value="${c}">${c}</option>`).join('');
         el.catSelect.disabled = false;
-
-        // リロード時のみ、保存されたカテゴリがあれば復元
-        const savedCat = sessionStorage.getItem('typing_cat');
-        if (savedCat && cats.includes(savedCat)) {
-            el.catSelect.value = savedCat;
-            state.selectedCategory = savedCat;
-        }
     } else {
-        // データがない場合は初期状態に戻す
         el.catSelect.innerHTML = '<option value="">-- 問題を選択 --</option>';
         el.catSelect.disabled = true;
         state.selectedCategory = "";
@@ -431,7 +571,10 @@ window.addEventListener('keydown', (e) => {
             if (state.inputIdx >= targets.length) { 
                 clearInterval(state.timerId);
                 state.score += Math.ceil(state.timer) * (CONFIG.BASE_SCORE + state.combo);
-                if (state.missInCurrent === 0) { state.combo++; state.maxCombo = Math.max(state.combo, state.maxCombo); }
+                if (state.missInCurrent === 0) {
+                    state.combo++; state.maxCombo = Math.max(state.combo, state.maxCombo);
+                    createConfetti(box); // 🎉演出
+                }
                 else { state.combo = 0; state.gamePerfect = false; }
                 nextStep(); 
             } else { updateKeyboardHighlight(); }
@@ -445,12 +588,26 @@ window.addEventListener('keydown', (e) => {
     } else if (!el.screens.result.classList.contains('hidden') && e.code === 'Space') showScreen('top');
 });
 
+// 🎉 パーフェクト演出用の紙吹雪
+function createConfetti(el) {
+    const emojis = ['🎉', '✨', '👍', '🌟'];
+    for (let i = 0; i < 4; i++) {
+        const confetti = document.createElement('span');
+        confetti.className = 'perfect-confetti';
+        confetti.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        confetti.style.left = (Math.random() * 20 - 10) + 'px';
+        confetti.style.top = (Math.random() * 20 - 10) + 'px';
+        el.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 1000);
+    }
+}
+
 function nextStep() { setTimeout(() => { state.currentQIdx++; nextQuestion(); }, 600); }
 function showScreen(id) { Object.keys(el.screens).forEach(k => el.screens[k].classList.toggle('hidden', k !== id)); }
 function endGame() {
     showScreen('result');
     el.resultTitle.className = state.gamePerfect ? "perfect" : "clear";
-    el.resultTitle.textContent = state.gamePerfect ? "Perfect!" : "Clear!";
+    el.resultTitle.textContent = state.gamePerfect ? "Perfect! 🎉" : "Clear! 👍";
     document.getElementById('final-score').textContent = state.score;
     document.getElementById('final-combo').textContent = state.maxCombo;
 }
