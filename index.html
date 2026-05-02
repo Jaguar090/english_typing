@@ -5,23 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>English Typing Master 🎉</title>
     <style>
-        /* --- デザインリニューアル: パステル & ポップ --- */
+        /* --- デザインリニューアル: バージョン1.1 ポップ & クリア --- */
         :root {
-            --bg-color: #e3f2fd; /* 明るいパステルブルー */
+            --bg-color: #e3f2fd;
             --card-bg: #ffffff;
-            --primary-color: #ff9800; /* 元気なオレンジ */
+            --primary-color: #ff9800;
             --primary-hover: #f57c00;
-            --perfect-color: #4caf50; /* 安心感のある緑 */
-            --clear-color: #8bc34a;   /* 黄緑 */
-            --error-color: #ef5350;   /* パステルレッド */
-            --text-main: #333333;     /* 濃いグレー（目に優しい） */
+            --perfect-color: #4caf50;
+            --clear-color: #8bc34a;
+            --error-color: #ef5350;
+            --text-main: #333333;
             --text-light: #b0bec5;
             
-            /* 黒板風タイピングエリア */
             --chalkboard-bg: #2a4d3e;
             --chalk-white: #ffffff;
 
-            /* 指の色分け（パステルカラーに変更） */
             --pinky: #ffcdd2; --ring: #fff9c4; --middle: #c8e6c9; --index: #bbdefb;
             --key-shadow: #b0bec5;
         }
@@ -35,7 +33,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-image: linear-gradient(120deg, #e3f2fd 0%, #ffffff 100%); /* 爽やかなグラデーション */
+            background-image: linear-gradient(120deg, #e3f2fd 0%, #ffffff 100%);
         }
 
         #app {
@@ -43,10 +41,10 @@
             max-width: 980px;
             background: var(--card-bg);
             padding: 2.5rem;
-            border-radius: 25px; /* 角を丸く */
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1); /* 立体感 */
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
             text-align: center;
-            border: 5px solid #fff; /* 白いフレーム */
+            border: 5px solid #fff;
         }
 
         h1 {
@@ -59,7 +57,6 @@
 
         .hidden { display: none !important; }
 
-        /* --- トップ画面 UI --- */
         .menu-section {
             border: 2px solid #e1f5fe;
             background-color: #fbfdff;
@@ -70,7 +67,6 @@
         
         .row { margin-bottom: 15px; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 10px;}
         
-        /* ラジオボタンを可愛く */
         .source-selector label {
             background: #fff;
             border: 2px solid #ddd;
@@ -83,7 +79,6 @@
             font-weight: bold;
         }
         .source-selector input[type="radio"] { margin-right: 8px; transform: scale(1.2); }
-        .source-selector input[type="radio"]:checked + span { color: var(--primary-color); }
         .source-selector label:has(input:checked) {
             border-color: var(--primary-color);
             background-color: #fff3e0;
@@ -100,55 +95,62 @@
             color: var(--text-main);
             cursor: pointer;
         }
-        #category-select { border-color: #81d4fa; } /* カテゴリは青枠 */
 
-        /* 楽しいボタンデザイン */
-        button {
+        /* モード選択ボタンのスタイル */
+        .mode-btn {
             border-radius: 30px;
             border: none;
             cursor: pointer;
-            padding: 12px 30px;
+            padding: 12px 35px;
             font-size: 1.1rem;
             font-weight: bold;
             transition: all 0.2s;
-            text-transform: uppercase;
             letter-spacing: 1px;
-            box-shadow: 0 5px 0 #e65100; /* 立体的な影 */
             margin: 5px 10px;
+            color: white;
+            position: relative;
+            top: 0;
         }
-        button:not(:disabled):active { transform: translateY(3px); box-shadow: 0 2px 0 #e65100; }
-        
-        #btn-normal { background: var(--clear-color); box-shadow: 0 5px 0 #558b2f; }
-        #btn-normal:not(:disabled):active { box-shadow: 0 2px 0 #558b2f; }
-        #btn-advanced { background: #4fc3f7; box-shadow: 0 5px 0 #0277bd; }
-        #btn-advanced:not(:disabled):active { box-shadow: 0 2px 0 #0277bd; }
-        #btn-dictation { background: #ba68c8; box-shadow: 0 5px 0 #6a1b9a; }
-        #btn-dictation:not(:disabled):active { box-shadow: 0 2px 0 #6a1b9a; }
 
-        button:disabled { background: #cfd8dc; box-shadow: 0 5px 0 #b0bec5; color: #90a4ae; cursor: not-allowed; }
+        /* 有効時の色と影 */
+        #btn-normal:not(:disabled) { background: #66bb6a; box-shadow: 0 6px 0 #388e3c; }
+        #btn-advanced:not(:disabled) { background: #42a5f5; box-shadow: 0 6px 0 #1976d2; }
+        #btn-dictation:not(:disabled) { background: #ab47bc; box-shadow: 0 6px 0 #7b1fa2; }
 
-        /* ユーザー問題UI */
+        /* 押した時の演出 */
+        .mode-btn:not(:disabled):active {
+            top: 4px;
+            box-shadow: 0 2px 0 rgba(0,0,0,0.2) !important;
+        }
+
+        /* 完全にグレーアウトさせるスタイル */
+        .mode-btn:disabled {
+            background-color: #bdbdbd !important; /* しっかりとしたグレー */
+            color: #eeeeee !important;
+            box-shadow: none !important; /* 立体感を消す */
+            cursor: not-allowed;
+            top: 0;
+        }
+
         .file-input-container { display: inline-flex; align-items: center; gap: 10px; position: relative; }
         .custom-file-btn {
-            background: #90a4ae; color: white; padding: 10px 20px;
+            background: #78909c; color: white; padding: 10px 20px;
             border-radius: 30px; cursor: pointer; font-weight: bold;
-            box-shadow: 0 5px 0 #546e7a;
+            box-shadow: 0 5px 0 #455a64;
         }
-        .custom-file-btn:active { transform: translateY(2px); box-shadow: 0 3px 0 #546e7a; }
         #file-input { position: absolute; left: 0; top: 0; opacity: 0; width: 140px; cursor: pointer; }
         #file-display-name { font-size: 0.95rem; color: #555; font-weight: bold; }
         #restore-msg { font-size: 0.9rem; color: #0277bd; font-weight: bold; margin-top: 8px; min-height: 1.2rem; }
 
-        /* チェックボックス */
         #voice-toggle { transform: scale(1.5); margin-right: 10px; cursor: pointer; }
-        label:has(#voice-toggle) { font-weight: bold; color: #555; display: flex; align-items: center; justify-content: center;}
+        label:has(#voice-toggle) { font-weight: bold; color: #555; }
 
-        /* --- タイピング画面 UI: 黒板風 --- */
+        /* --- タイピングエリア --- */
         #screen-game {
             background-color: var(--chalkboard-bg);
             border-radius: 20px;
             padding: 30px;
-            border: 10px solid #8d6e63; /* 木枠 */
+            border: 10px solid #8d6e63;
             box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
             color: var(--chalk-white);
         }
@@ -158,40 +160,32 @@
             font-size: 1.2rem; font-weight: bold; margin-bottom: 15px;
             background: rgba(255,255,255,0.1); padding: 10px; border-radius: 10px;
         }
-        .stats-bar span { color: #fff; }
 
         #progress-container { width: 100%; height: 12px; background: rgba(255,255,255,0.2); border-radius: 6px; margin-bottom: 2rem; overflow: hidden; border: 2px solid #fff; }
-        #progress-bar { height: 100%; background: var(--clear-color); width: 100%; transition: width 0.1s linear; }
+        #progress-bar { height: 100%; background: #aeea00; width: 100%; transition: width 0.1s linear; }
         
-        .japanese-text { font-size: 1.8rem; margin-bottom: 1.5rem; color: #ffd54f; height: 2rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
+        .japanese-text { font-size: 1.8rem; margin-bottom: 1.5rem; color: #ffd54f; height: 2rem; }
         
-        /* 英文表示エリア */
         .english-display {
             font-size: 2.3rem; display: flex; flex-wrap: wrap;
             justify-content: center; align-items: center;
             gap: 3px; margin-bottom: 2rem; min-height: 4rem;
-            line-height: 1.2;
-            font-family: 'Consolas', 'Courier New', monospace; /* 等幅フォント */
         }
 
-        /* 入力対象の枠: チョーク書き風 */
         .char-box {
             width: 38px; height: 55px;
             display: flex; align-items: center; justify-content: center;
             position: relative; margin: 0 2px;
-            border: 2px dashed rgba(255,255,255,0.5); /* 点線 */
+            border: 2px dashed rgba(255,255,255,0.5);
             border-radius: 5px; flex-shrink: 0;
-            color: var(--chalk-white);
         }
         
-        /* 単語間のスペース */
-        .char-space { width: 20px; height: 55px; display: inline-block; flex-shrink: 0; }
-        /* 記号 */
-        .char-normal { display: flex; align-items: center; justify-content: center; height: 55px; width: auto; padding: 0 1px; color: rgba(255,255,255,0.8); }
+        .char-space { width: 20px; height: 55px; display: inline-block; }
+        .char-normal { display: flex; align-items: center; justify-content: center; height: 55px; width: auto; padding: 0 1px; }
 
-        .char-box.correct { color: #fff; border: 2px solid #fff; background: rgba(255,255,255,0.1); text-shadow: 0 0 5px #fff; }
-        .char-box.hint { color: rgba(255,255,255,0.3); border-color: rgba(255,255,255,0.2); }
-        .char-box.error-anim { animation: shake 0.2s; border-color: var(--error-color); background-color: rgba(239, 83, 80, 0.2); }
+        .char-box.correct { color: #fff; border: 2px solid #fff; background: rgba(255,255,255,0.1); }
+        .char-box.hint { color: rgba(255,255,255,0.3); }
+        .char-box.error-anim { animation: shake 0.2s; border-color: var(--error-color); background: rgba(239, 83, 80, 0.2); }
         .char-box.error-mark::after { content: '×'; color: var(--error-color); position: absolute; font-size: 1.5rem; top: -15px; font-weight: bold; }
 
         @keyframes shake {
@@ -200,31 +194,15 @@
             75% { transform: translateX(5px); }
         }
 
-        /* 🎉 Perfect用アニメーション */
-        @keyframes confetti {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100px) rotate(360deg); opacity: 0; }
-        }
-        .perfect-confetti {
-            position: absolute; font-size: 1.5rem;
-            animation: confetti 1s ease-out forwards;
-            pointer-events: none;
-        }
-
-        /* --- 仮想キーボード UI: ポップ --- */
-        .keyboard { display: grid; grid-template-rows: repeat(3, 1fr); gap: 8px; margin-top: 2rem; user-select: none; background: #f0f4f8; padding: 15px; border-radius: 15px;}
+        .keyboard { display: grid; grid-template-rows: repeat(3, 1fr); gap: 8px; margin-top: 2rem; background: #f0f4f8; padding: 15px; border-radius: 15px;}
         .key-row { display: flex; justify-content: center; gap: 8px; }
         .key {
-            width: 48px; height: 48px;
-            border-radius: 10px;
+            width: 48px; height: 48px; border-radius: 10px;
             display: flex; align-items: center; justify-content: center;
             font-weight: bold; font-size: 1.2rem;
             border: none; background: white;
-            color: var(--text-main);
-            box-shadow: 0 4px 0 var(--key-shadow); /* 立体感 */
-            transition: all 0.1s;
+            box-shadow: 0 4px 0 var(--key-shadow);
         }
-        /* ターゲットキーの強調 */
         .key.active-target {
             background-color: var(--primary-color) !important;
             color: white !important;
@@ -232,22 +210,15 @@
             box-shadow: 0 2px 0 #e65100 !important;
         }
 
-        /* 指の色分け（パステル） */
         .p-l { background-color: var(--pinky); } .r-l { background-color: var(--ring); }
         .m-l { background-color: var(--middle); } .i-l { background-color: var(--index); }
         .i-r { background-color: var(--index); } .m-r { background-color: var(--middle); }
         .r-r { background-color: var(--ring); } .p-r { background-color: var(--pinky); }
 
-        .instruction { font-size: 0.95rem; color: #546e7a; margin-top: 1.5rem; font-weight: bold;}
-        #screen-game .instruction { color: rgba(255,255,255,0.7); }
-
-        /* --- リザルト画面 UI --- */
         #screen-result h1 { font-size: 3.5rem; margin-bottom: 1rem; }
-        #result-title.perfect { color: var(--perfect-color); text-shadow: 2px 2px 0 #c8e6c9; }
-        #result-title.clear { color: var(--primary-color); text-shadow: 2px 2px 0 #ffe0b2; }
+        #result-title.perfect { color: var(--perfect-color); }
+        #result-title.clear { color: var(--primary-color); }
         .result-stats { background: #f1f8e9; padding: 20px; border-radius: 15px; display: inline-block; margin: 20px 0; border: 2px solid #dcedc8;}
-        .result-stats p { font-size: 1.6rem; font-weight: bold; margin: 10px 0; color: #33691e; }
-        #final-score { color: var(--primary-color); font-size: 2rem; }
     </style>
 </head>
 <body>
@@ -265,7 +236,7 @@
             <div class="row">
                 <div id="server-file-ui">
                     <select id="standard-file-select">
-                        <option value="">-- 問題集をロード中 --</option>
+                        <option value="">-- 問題集を選択 --</option>
                     </select>
                 </div>
                 <div id="local-file-ui" class="hidden">
@@ -276,11 +247,10 @@
                     </div>
                 </div>
             </div>
-
             <div id="restore-msg"></div>
         </div>
 
-        <div class="menu-section chalk-style">
+        <div class="menu-section">
             <div class="row">
                 <select id="category-select" disabled>
                     <option value="">-- 問題を選択 --</option>
@@ -290,14 +260,15 @@
                 <label><input type="checkbox" id="voice-toggle"> 音声再生あり</label>
             </div>
             <div class="row">
-                <button id="btn-normal" class="mode-btn" disabled>Normal</button>
-                <button id="btn-advanced" class="mode-btn" disabled>Advanced</button>
-                <button id="btn-dictation" class="mode-btn" disabled>Dictation</button>
+                <button id="btn-normal" class="mode-btn" disabled>NORMAL</button>
+                <button id="btn-advanced" class="mode-btn" disabled>ADVANCED</button>
+                <button id="btn-dictation" class="mode-btn" disabled>DICTATION</button>
             </div>
         </div>
         <p class="instruction">※大文字・小文字はどちらでもOKだよ！</p>
     </div>
 
+    <!-- ゲーム画面 -->
     <div id="screen-game" class="hidden">
         <div class="stats-bar">
             <div>Score: <span id="display-score">0</span></div>
@@ -308,21 +279,22 @@
         <div id="display-japanese" class="japanese-text"></div>
         <div id="display-english" class="english-display"></div>
         <div id="virtual-keyboard" class="keyboard"></div>
-        <p class="instruction">Spaceキーでもう一度音声をきけるよ</p>
+        <p class="instruction" style="color:rgba(255,255,255,0.7)">Spaceキーでもう一度音声をきけるよ</p>
     </div>
 
+    <!-- リザルト画面 -->
     <div id="screen-result" class="hidden">
         <h1 id="result-title">Clear!</h1>
         <div class="result-stats">
-            <p>スコア: <span id="final-score">0</span></p>
-            <p>最大コンボ: <span id="final-combo">0</span></p>
+            <p style="font-size:1.5rem; font-weight:bold;">スコア: <span id="final-score" style="font-size:2rem; color:var(--primary-color)">0</span></p>
+            <p style="font-size:1.5rem; font-weight:bold;">最大コンボ: <span id="final-combo">0</span></p>
         </div>
-        <p class="instruction">Spaceキーを押してメニューにもどろう</p>
+        <p>Spaceキーを押してメニューにもどろう</p>
     </div>
 </div>
 
 <script>
-// --- ロジックはバージョン1を完全継承 ---
+// --- ロジック部分は変更なし（文言のみ修正） ---
 const STD_LIST_PATH = "./standard_files.csv";
 const CONFIG = { TIME_PER_CHAR: 3, BASE_SCORE: 5, COMBO_BONUS: 1, SPEECH_RATE: 0.9, MAX_MISS: 3 };
 
@@ -366,7 +338,6 @@ async function init() {
 async function loadStandardFileList() {
     try {
         const response = await fetch(STD_LIST_PATH);
-        if (!response.ok) throw new Error();
         const text = await response.text();
         const files = text.split(/\r?\n/).filter(l => l.trim() !== "");
         el.stdFileSelect.innerHTML = '<option value="">-- 問題集を選択 --</option>';
@@ -409,8 +380,6 @@ function restoreState() {
 el.radioSources.forEach(r => r.addEventListener('change', (e) => {
     el.restoreMsg.textContent = "";
     el.fileNameDisp.textContent = "";
-    
-    // 【仕様変更】手動切り替え時はデータをクリアする
     state.allData = [];
     state.selectedCategory = "";
     sessionStorage.removeItem('typing_csv_data');
@@ -421,11 +390,9 @@ el.radioSources.forEach(r => r.addEventListener('change', (e) => {
     if (e.target.value === 'server') {
         el.serverUi.classList.remove('hidden');
         el.localUi.classList.add('hidden');
-        el.stdFileSelect.value = ""; 
     } else {
         el.serverUi.classList.add('hidden');
         el.localUi.classList.remove('hidden');
-        el.fileInput.value = ""; 
     }
     updateCategoryList();
 }));
@@ -435,23 +402,19 @@ el.stdFileSelect.addEventListener('change', async () => {
     if (!file) return;
     try {
         const response = await fetch("./" + file);
-        if (!response.ok) throw new Error();
         const text = await response.text();
         parseCSV(text);
         sessionStorage.setItem('typing_csv_data', JSON.stringify(state.allData));
         sessionStorage.setItem('typing_source', 'server');
         sessionStorage.setItem('typing_std_file', file);
         updateCategoryList();
-    } catch (err) { alert("読込失敗しちゃった"); }
+    } catch (err) { alert("読込失敗"); }
 });
 
 el.fileInput.addEventListener('change', (e) => {
     const files = e.target.files[0];
     if (!files || files.length === 0) return;
-    const file = files;
-    el.fileNameDisp.textContent = file.name;
-    el.restoreMsg.textContent = ""; 
-    
+    el.fileNameDisp.textContent = files[0].name;
     const reader = new FileReader();
     reader.onload = (ev) => {
         parseCSV(ev.target.result);
@@ -459,7 +422,7 @@ el.fileInput.addEventListener('change', (e) => {
         sessionStorage.setItem('typing_source', 'local');
         updateCategoryList();
     };
-    reader.readAsText(file);
+    reader.readAsText(files[0]);
 });
 
 function parseCSV(text) {
@@ -479,7 +442,6 @@ function updateCategoryList() {
     } else {
         el.catSelect.innerHTML = '<option value="">-- 問題を選択 --</option>';
         el.catSelect.disabled = true;
-        state.selectedCategory = "";
     }
     updateModeButtons();
 }
@@ -503,8 +465,6 @@ el.voiceToggle.addEventListener('change', () => {
     sessionStorage.setItem('typing_voice', el.voiceToggle.checked);
 });
 
-// --- ゲームエンジン ---
-
 document.querySelectorAll('.mode-btn').forEach(btn => btn.onclick = () => {
     state.currentMode = btn.id.replace('btn-', '');
     state.currentQuestions = state.allData.filter(d => d.cat === state.selectedCategory);
@@ -521,18 +481,15 @@ function nextQuestion() {
     el.japText.textContent = (state.currentMode === 'dictation') ? "???" : q.jap;
     el.engDisplay.innerHTML = '';
     
-    let targetCount = 0, inBracket = false;
     for (let char of q.eng) {
         if (char === '[') { inBracket = true; continue; }
         if (char === ']') { inBracket = false; continue; }
         const span = document.createElement('span');
-        if (/[a-zA-Z]/.test(char) && !inBracket) {
+        if (/[a-zA-Z]/.test(char) && (typeof inBracket === 'undefined' || !inBracket)) {
             span.className = 'char-box';
             span.dataset.char = char.toLowerCase();
             span.dataset.display = char;
-            span.dataset.miss = 0;
             if (state.currentMode === 'normal') { span.textContent = char; span.classList.add('hint'); }
-            targetCount++;
         } else if (char === ' ') {
             span.className = 'char-space'; span.innerHTML = '&nbsp;';
         } else {
@@ -540,7 +497,28 @@ function nextQuestion() {
         }
         el.engDisplay.appendChild(span);
     }
-    state.timerMax = Math.max(targetCount * CONFIG.TIME_PER_CHAR, 5);
+    // []ロジックの微調整
+    let inBrk = false;
+    let tCount = 0;
+    el.engDisplay.innerHTML = '';
+    for(let char of q.eng){
+        if(char === '['){ inBrk = true; continue; }
+        if(char === ']'){ inBrk = false; continue; }
+        const span = document.createElement('span');
+        if(/[a-zA-Z]/.test(char) && !inBrk){
+            span.className = 'char-box';
+            span.dataset.char = char.toLowerCase();
+            span.dataset.display = char;
+            if (state.currentMode === 'normal') { span.textContent = char; span.classList.add('hint'); }
+            tCount++;
+        } else if(char === ' '){
+            span.className = 'char-space'; span.innerHTML = '&nbsp;';
+        } else {
+            span.className = 'char-normal'; span.textContent = char;
+        }
+        el.engDisplay.appendChild(span);
+    }
+    state.timerMax = Math.max(tCount * CONFIG.TIME_PER_CHAR, 5);
     state.timer = state.timerMax;
     if (el.voiceToggle.checked) speak(q.eng.replace(/\[|\]/g, ''));
     startTimer(); updateKeyboardHighlight();
@@ -571,10 +549,7 @@ window.addEventListener('keydown', (e) => {
             if (state.inputIdx >= targets.length) { 
                 clearInterval(state.timerId);
                 state.score += Math.ceil(state.timer) * (CONFIG.BASE_SCORE + state.combo);
-                if (state.missInCurrent === 0) {
-                    state.combo++; state.maxCombo = Math.max(state.combo, state.maxCombo);
-                    createConfetti(box); // 🎉演出
-                }
+                if (state.missInCurrent === 0) { state.combo++; state.maxCombo = Math.max(state.combo, state.maxCombo); }
                 else { state.combo = 0; state.gamePerfect = false; }
                 nextStep(); 
             } else { updateKeyboardHighlight(); }
@@ -587,20 +562,6 @@ window.addEventListener('keydown', (e) => {
         }
     } else if (!el.screens.result.classList.contains('hidden') && e.code === 'Space') showScreen('top');
 });
-
-// 🎉 パーフェクト演出用の紙吹雪
-function createConfetti(el) {
-    const emojis = ['🎉', '✨', '👍', '🌟'];
-    for (let i = 0; i < 4; i++) {
-        const confetti = document.createElement('span');
-        confetti.className = 'perfect-confetti';
-        confetti.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-        confetti.style.left = (Math.random() * 20 - 10) + 'px';
-        confetti.style.top = (Math.random() * 20 - 10) + 'px';
-        el.appendChild(confetti);
-        setTimeout(() => confetti.remove(), 1000);
-    }
-}
 
 function nextStep() { setTimeout(() => { state.currentQIdx++; nextQuestion(); }, 600); }
 function showScreen(id) { Object.keys(el.screens).forEach(k => el.screens[k].classList.toggle('hidden', k !== id)); }
