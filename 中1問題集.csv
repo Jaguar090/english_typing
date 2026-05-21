@@ -1,15 +1,15 @@
 section,japanese,english
-be動詞単数,ぼくは大阪の出身です,I am from [Osaka].
-be動詞単数,あなたは私の先生です,You are my teacher.
-be動詞単数,かいとは私のクラスメートです,Kaito is my [classmate].
-be動詞単数,彼女はカナダ出身です,She is from [Canada].
-be動詞単数,彼は私の英語の先生です,He is my English teacher.
-be動詞単数,これは私のギターです,This is my guitar.
-be動詞単数,私はゆうとです,I am Yuto
-be動詞単数,きみは中国の出身だよね,You are from China.
-be動詞単数,あなたはとても背が高いです,You are very [tall].
-be動詞単数,あなたのギターはかっこいいですね,Your guitar is cool.
-be動詞単数,私の妹は10歳です,My sister is ten years old.
+be動詞 単数,ぼくは大阪の出身です,I am from [Osaka].
+be動詞 単数,あなたは私の先生です,You are my teacher.
+be動詞 単数,かいとは私のクラスメートです,Kaito is my [classmate].
+be動詞 単数,彼女はカナダ出身です,She is from [Canada].
+be動詞 単数,彼は私の英語の先生です,He is my English teacher.
+be動詞 単数,これは私のギターです,This is my guitar.
+be動詞 単数,私はゆうとです,I am Yuto
+be動詞 単数,きみは中国の出身だよね,You are from China.
+be動詞 単数,あなたはとても背が高いです,You are very [tall].
+be動詞 単数,あなたのギターはかっこいいですね,Your guitar is cool.
+be動詞 単数,私の妹は10歳です,My sister is ten years old.
 be動詞複数・否定,私たちはサッカーファンです,We are soccer fans.
 be動詞複数・否定,ゆうととかいとはチームメイトです,Yuto and Kaito are [teammates].
 be動詞複数・否定,これらは私の本です,These are my books.
@@ -23,3 +23,17 @@ be動詞複数・否定,彼は先生ではありません,He's not a teacher.
 be動詞複数・否定,ぼくはゆうとではありません,I am not Yuto.
 be動詞複数・否定,私たちは今、忙しいです,We are busy now.
 be動詞複数・否定,私たちは今、忙しくありません,We are not busy now.
+be動詞 疑問,あなたは今、忙しいです。,You are busy now.
+be動詞 疑問,あなたは今、忙しいですか。,Are you busy now?
+be動詞 疑問,これはあなたのかばんですか。,Is this your bag?
+be動詞 疑問,あなたは高校生ですか。,Are you a high school student?
+be動詞 疑問,はい、そうです。,Yes, I am. 
+be動詞 疑問,いいえ、ちがいます。,No, I'm not.
+be動詞 疑問,彼女はあなたの友達ですか。,Is she your friend?
+be動詞 疑問,はい、そうです。,Yes, she is.
+be動詞 疑問,いいえ、ちがいます。, No, she isn't.
+be動詞 疑問,あなたはインドの出身ですか。,Are you from India?
+be動詞 疑問,彼はあなたのお兄さんですか。,Is he your brother?
+be動詞 疑問,あなたはユキですか。 -はい、そうです。,Are you Yuki? - Yes, I am.
+be動詞 疑問,あれは駅ですか。 -はい、そうです。,Is that a station? - Yes, it is.
+be動詞 疑問,あなたのお父さんは医者ですか。-いいえ、ちがいます。,Is your father a doctor? - No, he isn't.
