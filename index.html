@@ -125,9 +125,9 @@
 
         /* 完全にグレーアウトさせるスタイル */
         .mode-btn:disabled {
-            background-color: #bdbdbd !important; /* しっかりとしたグレー */
+            background-color: #bdbdbd !important;
             color: #eeeeee !important;
-            box-shadow: none !important; /* 立体感を消す */
+            box-shadow: none !important;
             cursor: not-allowed;
             top: 0;
         }
@@ -138,7 +138,7 @@
             border-radius: 30px; cursor: pointer; font-weight: bold;
             box-shadow: 0 5px 0 #455a64;
         }
-        #file-input { position: absolute; left: 0; top: 0; opacity: 0; width: 140px; cursor: pointer; }
+        #file-input { position: absolute; left: 0; top: 0; opacity: 0; width: 140px; cursor: pointer; z-index: 2; }
         #file-display-name { font-size: 0.95rem; color: #555; font-weight: bold; }
         #restore-msg { font-size: 0.9rem; color: #0277bd; font-weight: bold; margin-top: 8px; min-height: 1.2rem; }
 
@@ -192,6 +192,17 @@
             0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-5px); }
             75% { transform: translateX(5px); }
+        }
+
+        /* 🎉 Perfect用アニメーション */
+        @keyframes confetti {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100px) rotate(360deg); opacity: 0; }
+        }
+        .perfect-confetti {
+            position: absolute; font-size: 1.5rem;
+            animation: confetti 1s ease-out forwards;
+            pointer-events: none;
         }
 
         .keyboard { display: grid; grid-template-rows: repeat(3, 1fr); gap: 8px; margin-top: 2rem; background: #f0f4f8; padding: 15px; border-radius: 15px;}
@@ -268,7 +279,6 @@
         <p class="instruction">※大文字・小文字はどちらでもOKだよ！</p>
     </div>
 
-    <!-- ゲーム画面 -->
     <div id="screen-game" class="hidden">
         <div class="stats-bar">
             <div>Score: <span id="display-score">0</span></div>
@@ -282,7 +292,6 @@
         <p class="instruction" style="color:rgba(255,255,255,0.7)">Spaceキーでもう一度音声をきけるよ</p>
     </div>
 
-    <!-- リザルト画面 -->
     <div id="screen-result" class="hidden">
         <h1 id="result-title">Clear!</h1>
         <div class="result-stats">
@@ -294,7 +303,6 @@
 </div>
 
 <script>
-// --- ロジック部分は変更なし（文言のみ修正） ---
 const STD_LIST_PATH = "./standard_files.csv";
 const CONFIG = { TIME_PER_CHAR: 3, BASE_SCORE: 5, COMBO_BONUS: 1, SPEECH_RATE: 0.9, MAX_MISS: 3 };
 
@@ -411,10 +419,13 @@ el.stdFileSelect.addEventListener('change', async () => {
     } catch (err) { alert("読込失敗"); }
 });
 
+// AIの文字消えバグを100%回避する安全な記法（item関数）で実装
 el.fileInput.addEventListener('change', (e) => {
-    const files = e.target.files[0];
+    const files = e.target.files;
     if (!files || files.length === 0) return;
-    el.fileNameDisp.textContent = files[0].name;
+    const file = files.item(0); 
+    el.fileNameDisp.textContent = file.name;
+    
     const reader = new FileReader();
     reader.onload = (ev) => {
         parseCSV(ev.target.result);
@@ -422,7 +433,7 @@ el.fileInput.addEventListener('change', (e) => {
         sessionStorage.setItem('typing_source', 'local');
         updateCategoryList();
     };
-    reader.readAsText(files[0]);
+    reader.readAsText(file);
 });
 
 function parseCSV(text) {
@@ -465,6 +476,8 @@ el.voiceToggle.addEventListener('change', () => {
     sessionStorage.setItem('typing_voice', el.voiceToggle.checked);
 });
 
+// --- ゲームエンジン ---
+
 document.querySelectorAll('.mode-btn').forEach(btn => btn.onclick = () => {
     state.currentMode = btn.id.replace('btn-', '');
     state.currentQuestions = state.allData.filter(d => d.cat === state.selectedCategory);
@@ -473,6 +486,7 @@ document.querySelectorAll('.mode-btn').forEach(btn => btn.onclick = () => {
     showScreen('game'); nextQuestion();
 });
 
+// 重複とタイポ（inBrk）を完全に綺麗にした新nextQuestion
 function nextQuestion() {
     if (state.currentQIdx >= state.currentQuestions.length) return endGame();
     const q = state.currentQuestions[state.currentQIdx];
@@ -481,15 +495,20 @@ function nextQuestion() {
     el.japText.textContent = (state.currentMode === 'dictation') ? "???" : q.jap;
     el.engDisplay.innerHTML = '';
     
+    let inBracket = false;
+    let tCount = 0;
+    
     for (let char of q.eng) {
         if (char === '[') { inBracket = true; continue; }
         if (char === ']') { inBracket = false; continue; }
+        
         const span = document.createElement('span');
-        if (/[a-zA-Z]/.test(char) && (typeof inBracket === 'undefined' || !inBracket)) {
+        if (/[a-zA-Z]/.test(char) && !inBracket) {
             span.className = 'char-box';
             span.dataset.char = char.toLowerCase();
             span.dataset.display = char;
             if (state.currentMode === 'normal') { span.textContent = char; span.classList.add('hint'); }
+            tCount++;
         } else if (char === ' ') {
             span.className = 'char-space'; span.innerHTML = '&nbsp;';
         } else {
@@ -497,27 +516,7 @@ function nextQuestion() {
         }
         el.engDisplay.appendChild(span);
     }
-    // []ロジックの微調整
-    let inBrk = false;
-    let tCount = 0;
-    el.engDisplay.innerHTML = '';
-    for(let char of q.eng){
-        if(char === '['){ inBrk = true; continue; }
-        if(char === ']'){ inBrk = false; continue; }
-        const span = document.createElement('span');
-        if(/[a-zA-Z]/.test(char) && !inBrk){
-            span.className = 'char-box';
-            span.dataset.char = char.toLowerCase();
-            span.dataset.display = char;
-            if (state.currentMode === 'normal') { span.textContent = char; span.classList.add('hint'); }
-            tCount++;
-        } else if(char === ' '){
-            span.className = 'char-space'; span.innerHTML = '&nbsp;';
-        } else {
-            span.className = 'char-normal'; span.textContent = char;
-        }
-        el.engDisplay.appendChild(span);
-    }
+    
     state.timerMax = Math.max(tCount * CONFIG.TIME_PER_CHAR, 5);
     state.timer = state.timerMax;
     if (el.voiceToggle.checked) speak(q.eng.replace(/\[|\]/g, ''));
@@ -549,7 +548,10 @@ window.addEventListener('keydown', (e) => {
             if (state.inputIdx >= targets.length) { 
                 clearInterval(state.timerId);
                 state.score += Math.ceil(state.timer) * (CONFIG.BASE_SCORE + state.combo);
-                if (state.missInCurrent === 0) { state.combo++; state.maxCombo = Math.max(state.combo, state.maxCombo); }
+                if (state.missInCurrent === 0) {
+                    state.combo++; state.maxCombo = Math.max(state.combo, state.maxCombo);
+                    createConfetti(box); 
+                }
                 else { state.combo = 0; state.gamePerfect = false; }
                 nextStep(); 
             } else { updateKeyboardHighlight(); }
@@ -562,6 +564,19 @@ window.addEventListener('keydown', (e) => {
         }
     } else if (!el.screens.result.classList.contains('hidden') && e.code === 'Space') showScreen('top');
 });
+
+function createConfetti(el) {
+    const emojis = ['🎉', '✨', '👍', '🌟'];
+    for (let i = 0; i < 4; i++) {
+        const confetti = document.createElement('span');
+        confetti.className = 'perfect-confetti';
+        confetti.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        confetti.style.left = (Math.random() * 20 - 10) + 'px';
+        confetti.style.top = (Math.random() * 20 - 10) + 'px';
+        el.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 1000);
+    }
+}
 
 function nextStep() { setTimeout(() => { state.currentQIdx++; nextQuestion(); }, 600); }
 function showScreen(id) { Object.keys(el.screens).forEach(k => el.screens[k].classList.toggle('hidden', k !== id)); }
