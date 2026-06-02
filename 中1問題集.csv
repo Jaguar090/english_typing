@@ -10,19 +10,19 @@ be動詞 単数,きみは中国の出身だよね,You are from China.
 be動詞 単数,あなたはとても背が高いです,You are very [tall].
 be動詞 単数,あなたのギターはかっこいいですね,Your guitar is cool.
 be動詞 単数,私の妹は10歳です,My sister is ten years old.
-be動詞複数・否定,私たちはサッカーファンです,We are soccer fans.
-be動詞複数・否定,ゆうととかいとはチームメイトです,Yuto and Kaito are [teammates].
-be動詞複数・否定,これらは私の本です,These are my books.
-be動詞複数・否定,彼らは私の両親です,They are my [parents].
-be動詞複数・否定,私はおなかがすいています,I am hungry.
-be動詞複数・否定,私はおなかがすいていません,I am not hungry.
-be動詞複数・否定,これは私のかばんではありません,This is not my bag.
-be動詞複数・否定,彼は先生ではありません,He is not a teacher.
-be動詞複数・否定,彼は先生ではありません,He isn't a teacher.
-be動詞複数・否定,彼は先生ではありません,He's not a teacher.
-be動詞複数・否定,ぼくはゆうとではありません,I am not Yuto.
-be動詞複数・否定,私たちは今、忙しいです,We are busy now.
-be動詞複数・否定,私たちは今、忙しくありません,We are not busy now.
+be動詞 複数・否定,私たちはサッカーファンです,We are soccer fans.
+be動詞 複数・否定,ゆうととかいとはチームメイトです,Yuto and Kaito are [teammates].
+be動詞 複数・否定,これらは私の本です,These are my books.
+be動詞 複数・否定,彼らは私の両親です,They are my [parents].
+be動詞 複数・否定,私はおなかがすいています,I am hungry.
+be動詞 複数・否定,私はおなかがすいていません,I am not hungry.
+be動詞 複数・否定,これは私のかばんではありません,This is not my bag.
+be動詞 複数・否定,彼は先生ではありません,He is not a teacher.
+be動詞 複数・否定,彼は先生ではありません,He isn't a teacher.
+be動詞 複数・否定,彼は先生ではありません,He's not a teacher.
+be動詞 複数・否定,ぼくはゆうとではありません,I am not Yuto.
+be動詞 複数・否定,私たちは今、忙しいです,We are busy now.
+be動詞 複数・否定,私たちは今、忙しくありません,We are not busy now.
 be動詞 疑問,あなたは今、忙しいです。,You are busy now.
 be動詞 疑問,あなたは今、忙しいですか。,Are you busy now?
 be動詞 疑問,これはあなたのかばんですか。,Is this your bag?
@@ -34,6 +34,18 @@ be動詞 疑問,はい、そうです。,Yes, she is.
 be動詞 疑問,いいえ、ちがいます。, No, she isn't.
 be動詞 疑問,あなたはインドの出身ですか。,Are you from India?
 be動詞 疑問,彼はあなたのお兄さんですか。,Is he your brother?
-be動詞 疑問,あなたはユキですか。 -はい、そうです。,Are you Yuki? - Yes, I am.
+be動詞 疑問,あなたはユウトですか。 -はい、そうです。,Are you Yuto? - Yes, I am.
 be動詞 疑問,あれは駅ですか。 -はい、そうです。,Is that a station? - Yes, it is.
 be動詞 疑問,あなたのお父さんは医者ですか。-いいえ、ちがいます。,Is your father a doctor? - No, he isn't.
+be動詞 おさらい,私は中学生です。,I am a junior high school student.
+be動詞 おさらい,ユウトとカイトはチームメートです。,Yuto and Kaito are teammates.
+be動詞 おさらい,あれは図書館ではありません。,That is not a library.
+be動詞 おさらい,私はサッカーファンではありません。,I am not a soccer fan.
+be動詞 おさらい,彼はテニス選手ですか。,Is he a tennis player?
+be動詞 おさらい,私たちは今忙しいです。,We are busy now.
+be動詞 おさらい,あなたは日本の出身ですか。ーはい、そうです。,Are you from Japan? - Yes, I am.
+be動詞 おさらい,タナカ先生は音楽の先生ですか。ーいいえ、ちがいます。,Is [Ms.Tanaka] a music teacher? - No, she is not.
+be動詞 おさらい,これはあなたの自転車ですか。ーいいえ、ちがいます。,Is this your bike? - No, it is not.
+be動詞 おさらい,私の父はパイロットです。,My father is a pilot.
+be動詞 おさらい,彼女はあなたのお姉さんですか。,Is she your sister?
+be動詞 おさらい,カイトと私は親友です。,Kaito and I are good friends.
